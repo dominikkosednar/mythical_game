@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Dwarvish_Fighter extends Unit{
 
     public Dwarvish_Fighter(String name) {
-        setType_name("Dwarish_Fighter");
+        setType_name("Dwarvish Fighter");
         setMoves(4);
         setMax_health(38);
         setName(name);
