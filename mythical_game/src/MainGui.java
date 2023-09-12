@@ -163,7 +163,7 @@ public class MainGui extends JFrame {
 
     }
     public String createStatsString(){
-        StringBuilder statsString = new StringBuilder();
+        StringBuilder statsString = new StringBuilder() ;
 
         statsString.append("# " + JLabel_typ.getText()+ "\n");
         statsString.append(JLabel_HP.getText()+"\n");
