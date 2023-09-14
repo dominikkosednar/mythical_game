@@ -5,6 +5,7 @@ public class Main {
 
         ArrayList<String> unit_list = new ArrayList<>();
         ArrayList<Unit> units = new ArrayList<>();
+        ArrayList<Unit> units_fight = new ArrayList<>();
 
         for (int i= 1; i <= 15; i++){
 
@@ -12,6 +13,7 @@ public class Main {
                 Drake_Burner unit = new Drake_Burner("unit "+i);
                 unit_list.add(unit.getName());
                 units.add(unit);
+                units_fight.add(unit);
 
             }
             if(i >5 && i <= 10){
@@ -29,6 +31,6 @@ public class Main {
         MainGui gui = new MainGui(unit_list,units);
 
 
-
     }
+
 }

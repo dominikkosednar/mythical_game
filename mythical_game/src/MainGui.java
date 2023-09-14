@@ -25,10 +25,10 @@ public class MainGui extends JFrame {
     private JPanel JPanel_Checkbox;
 
 
-    public MainGui (ArrayList<String> unit_list, ArrayList<Unit> units){
+    public MainGui(ArrayList<String> unit_list, ArrayList<Unit> units) {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBounds(100,100,800,600);
+        setBounds(100, 100, 800, 600);
         add(panelMain);
         setVisible(true);
 
@@ -68,7 +68,7 @@ public class MainGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (showStatsCheckBox.isSelected() == false) {
                     JPanel_Playerlist.setVisible(false);
-                }else {
+                } else {
                     JPanel_Playerlist.setVisible(true);
                 }
             }
@@ -101,22 +101,35 @@ public class MainGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String statsString = createStatsString();
-                String fileName = JLabel_typ.getText()+".md";
-                fileName = fileName.replace(" ","_");
+                String fileName = JLabel_typ.getText() + ".md";
+                fileName = fileName.replace(" ", "_");
 
-                SaveDialog saveDialog = new SaveDialog(statsString,fileName);
+                SaveDialog saveDialog = new SaveDialog(statsString, fileName);
 
             }
         });
     }
-/////////////////////////// Functions //////////////////////////////////////
-    public void unitStats(ArrayList<Unit> units){
 
-        for (Unit unit:units) {
-            if (unit.getName() == JList_Playerlist.getSelectedValue()){
+    /////////////////////////// Functions //////////////////////////////////////
+    public ArrayList<Unit> available_units(ArrayList<Unit> units, ArrayList<Unit> units_fight) {
+
+        ArrayList<Unit> available_units = new ArrayList<>();
+
+        for (Unit unit : units) {
+            if (units_fight.contains(unit) == false) {
+                available_units.add(unit);
+            }
+        }
+        return available_units;
+    }
+
+    public void unitStats(ArrayList<Unit> units) {
+
+        for (Unit unit : units) {
+            if (unit.getName() == JList_Playerlist.getSelectedValue()) {
                 JLabel_typ.setText(unit.getType_name());
-                JLabel_HP.setText("HP: "+unit.getMax_health().toString());
-                JLabel_Moves.setText("Moves: "+unit.getMoves().toString());
+                JLabel_HP.setText("HP: " + unit.getMax_health().toString());
+                JLabel_Moves.setText("Moves: " + unit.getMoves().toString());
             }
         }
     }
@@ -124,30 +137,30 @@ public class MainGui extends JFrame {
     public void createTable(ArrayList<Unit> units) {
 
         String[] titles = new String[]{"Name", "Strikes", "Range", "Type"};
-        DefaultTableModel model = new DefaultTableModel(titles,0);
+        DefaultTableModel model = new DefaultTableModel(titles, 0);
 
         for (Unit unit : units) {
             if (unit.getName() == JList_Playerlist.getSelectedValue()) {
-                for (Weapon weapon:unit.getWeapons())
-                {
+                for (Weapon weapon : unit.getWeapons()) {
                     String range = new String();
                     if (weapon.getIs_ranged() == true) {
                         range = "ranged";
-                    }else {
+                    } else {
                         range = "melee";
                     }
-                    model.addRow(new Object[]{weapon.getName(),weapon.getStrikes().toString()+" x "+weapon.getDamage().toString(),range,weapon.getType()});
+                    model.addRow(new Object[]{weapon.getName(), weapon.getStrikes().toString() + " x " + weapon.getDamage().toString(), range, weapon.getType()});
                 }
             }
         }
 
         JTable_Weapons.setModel(model);
     }
-    public void showImage(ArrayList<Unit> units){
 
-        for (Unit unit:units) {
-            if (unit.getName() == JList_Playerlist.getSelectedValue()){
-                if(unit.getType_name() == "Drake Burner"){
+    public void showImage(ArrayList<Unit> units) {
+
+        for (Unit unit : units) {
+            if (unit.getName() == JList_Playerlist.getSelectedValue()) {
+                if (unit.getType_name() == "Drake Burner") {
                     ImageIcon imageIcon = new ImageIcon("images/drake_burner.png");
                     JLabel_Image.setIcon(imageIcon);
                 } else if (unit.getType_name() == "Dwarvish Fighter") {
@@ -162,18 +175,19 @@ public class MainGui extends JFrame {
 
 
     }
-    public String createStatsString(){
-        StringBuilder statsString = new StringBuilder() ;
 
-        statsString.append("# " + JLabel_typ.getText()+ "\n");
-        statsString.append(JLabel_HP.getText()+"\n");
-        statsString.append(JLabel_Moves.getText()+"\n");
+    public String createStatsString() {
+        StringBuilder statsString = new StringBuilder();
+
+        statsString.append("# " + JLabel_typ.getText() + "\n");
+        statsString.append(JLabel_HP.getText() + "\n");
+        statsString.append(JLabel_Moves.getText() + "\n");
         statsString.append("\n");
-        statsString.append("## "+JLabel_Weapons.getText()+"\n");
+        statsString.append("## " + JLabel_Weapons.getText() + "\n");
         statsString.append("| ");
 
         for (int col = 0; col < JTable_Weapons.getColumnCount(); col++) {
-            statsString.append(" "+JTable_Weapons.getColumnName(col));
+            statsString.append(" " + JTable_Weapons.getColumnName(col));
             statsString.append(" |");
         }
         statsString.append("\n");
@@ -195,7 +209,6 @@ public class MainGui extends JFrame {
         return statsString.toString();
 
     }
-
 
 
 }
